@@ -34,7 +34,7 @@ export async function successHistory(data: Record<string, unknown>, id: string) 
     const newBalance = walletBalance - amount;
     await prisma.withdrawHistory.create({
         data: {
-            amount: record.amount,
+            amount: amount,
             accountNumber: record.accountNumber as string,
             bankName: record.bankName as string,
             userId: id,
