@@ -77,7 +77,9 @@ exports.txRecordSchema = zod_1.default.object({
     amount: zod_1.default.string(),
 });
 exports.updateWalletSchema = zod_1.default.object({
-    amount: zod_1.default.string(),
-    email: zod_1.default.string()
+    txAmount: zod_1.default.string(),
+    email: zod_1.default.string(),
+    txStatus: zod_1.default.string(),
+    txId: zod_1.default.string()
 });
 //# sourceMappingURL=validation.js.map
