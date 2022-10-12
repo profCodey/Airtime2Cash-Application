@@ -30,12 +30,12 @@ export async function updateWallet(data: Record<string, unknown>, id: string) {
 			email
 		},
 		data: {
-			wallet:
-				newBal
+			wallet: newBal,
+
 		}
 	});
 
-	return response; 
+	return response;
 
 }
 
