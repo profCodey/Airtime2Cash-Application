@@ -19,6 +19,7 @@ model User {
   wallet     Int     @default(0)
   isVerified Boolean @default(false)
   isAdmin    Boolean @default(false)
+  twoFaSecret String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -65,4 +66,5 @@ model TxRecord {
   userId String
 
   createdAt DateTime @default(now())
+
 }

@@ -7,11 +7,28 @@ import logger from "morgan";
 import cors from "cors";
 import helmet from "helmet";
 
+// import { authenticator } from '@otplib/preset-default'
+// import qrcode from 'qrcode'
+// const user = 'A user name, possibly an email';
+// const service = 'A service name';
+// const secret="some2secret"
+
+// // v11.x and above
+// const otpauth = authenticator.keyuri(user, service, secret);
+
+// qrcode.toDataURL(otpauth, (err, imageUrl) => {
+//   if (err) {
+//     throw ('Error with QR');
+//   }
+//   console.log (imageUrl);
+// })
+
 import usersRouter from "./routes/userRoute";
 import accountRouter from "./routes/accountRoute";
 import withdrawHistoryRouter from "./routes/withdrawHistoryRoute";
 import walletRouter from "./routes/walletRoute";
 import txRoute from "./routes/txRoute";
+import twoFactor from "./routes/twoFactorRoute";
 
 const app = express();
 
@@ -34,7 +51,7 @@ app.use("/api/account", accountRouter);
 app.use("/api/withdraw", withdrawHistoryRouter);
 app.use("/api/wallet", walletRouter);
 app.use("/api/transactions", txRoute);
-
+app.use("/api/twofactor", twoFactor);
 app.use("/api/usertxhistory", txRoute);
 
 // catch 404 and forward to error handler
