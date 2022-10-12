@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { Response, NextFunction, Request } from "express";
-import prisma from "../utils/prismaClient";
+import prisma from "./prismaClient";
 import { userRequest } from "../types/express";
 
 

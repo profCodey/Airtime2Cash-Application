@@ -30,7 +30,7 @@ export async function walletBalanceFunc(data: Record<string, unknown>, id: strin
 
 export async function successHistory(data: Record<string, unknown>, id: string) {
 
-    const { walletBalance, amount, record } = await validation(data, id)
+    const { walletBalance, amount, record } = await validation(data, id);
     const newBalance = walletBalance - amount;
     await prisma.withdrawHistory.create({
         data: {

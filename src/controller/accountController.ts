@@ -39,9 +39,10 @@ export async function getAccounts(id: string) {
 		}
 	})
 
-	return userAccount
+	return userAccount;
 }
 
 export async function removeAccount(id: string) {
 	const response = await prisma.account.delete({ where: { id: id } })
 }
+

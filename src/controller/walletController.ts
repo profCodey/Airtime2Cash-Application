@@ -1,6 +1,6 @@
-import { updateWalletSchema } from '../utils/validation';
+import { updateWalletSchema } from "../utils/validation";
 import prisma from "../utils/prismaClient";
-import { updateUser } from './userController';
+import { updateUser } from "./userController";
 
 export async function updateWallet(amount: string, id: string) {
 	const isAmount = updateWalletSchema.safeParse(amount);
