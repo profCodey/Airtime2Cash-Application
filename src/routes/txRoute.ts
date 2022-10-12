@@ -13,6 +13,7 @@ route.post("/", auth, async (req: userRequest, res) => {
 		const response = await recordTx(txData, user_id);
 		return res.status(201).json({ message: "success", response });
 	} catch (error) {
+		console.log(error)
 		return res.status(400).json({ Error, error });
 	}
 });

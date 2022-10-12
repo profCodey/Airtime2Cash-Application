@@ -6,7 +6,7 @@ export async function recordTx(txData: Record<string, unknown>, id: string) {
   const validData = txRecordSchema.safeParse(txData);
   if (!validData.success) throw validData.error;
   const { amount, network, phone } = validData.data;
-  const amountAfterRates = Number(amount) * 0.7;
+  const amountAfterRates = (Number(amount) * 70)/100;
 
   //get user email
   const user = await prisma.user.findUnique({ where: { id } });
@@ -63,6 +63,7 @@ export async function recordTx(txData: Record<string, unknown>, id: string) {
             <a href="${process.env.FRONTEND_URL}/admin">Click here</a> to confirm transfer
      `, // html body
   });
+
   return response;
 }
 
