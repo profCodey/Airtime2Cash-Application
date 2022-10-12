@@ -19,10 +19,11 @@ const accountRoute_1 = __importDefault(require("./routes/accountRoute"));
 const withdrawHistoryRoute_1 = __importDefault(require("./routes/withdrawHistoryRoute"));
 const walletRoute_1 = __importDefault(require("./routes/walletRoute"));
 const txRoute_1 = __importDefault(require("./routes/txRoute"));
-const specs = yamljs_1.default.load('./swagger.yaml');
+const twoFactorRoute_1 = __importDefault(require("./routes/twoFactorRoute"));
+const specs = yamljs_1.default.load("./swagger.yaml");
 const app = (0, express_1.default)();
 console.log("app running on port 7000");
-app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
+app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
 app.use((0, compression_1.default)());
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
@@ -37,6 +38,7 @@ app.use("/api/account", accountRoute_1.default);
 app.use("/api/withdraw", withdrawHistoryRoute_1.default);
 app.use("/api/wallet", walletRoute_1.default);
 app.use("/api/transactions", txRoute_1.default);
+app.use("/api/twofactor", twoFactorRoute_1.default);
 app.use("/api/usertxhistory", txRoute_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

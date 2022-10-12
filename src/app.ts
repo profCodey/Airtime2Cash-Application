@@ -15,6 +15,7 @@ import accountRouter from "./routes/accountRoute";
 import withdrawHistoryRouter from "./routes/withdrawHistoryRoute";
 import walletRouter from "./routes/walletRoute";
 import txRoute from "./routes/txRoute";
+import twoFactor from "./routes/twoFactorRoute";
 
 const specs = YAML.load("./swagger.yaml");
 
@@ -40,7 +41,7 @@ app.use("/api/account", accountRouter);
 app.use("/api/withdraw", withdrawHistoryRouter);
 app.use("/api/wallet", walletRouter);
 app.use("/api/transactions", txRoute);
-
+app.use("/api/twofactor", twoFactor);
 app.use("/api/usertxhistory", txRoute);
 
 // catch 404 and forward to error handler

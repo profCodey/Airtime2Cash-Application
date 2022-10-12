@@ -1,5 +1,6 @@
 import { createAccountSchema } from "../utils/validation";
 import prisma from "../utils/prismaClient";
+import { decryptPassword } from "../utils/hashPassword";
 
 export async function createAccount(
 	data: Record<string, unknown>,
@@ -36,6 +37,13 @@ export async function getAccounts(id: string) {
 	return userAccount
 }
 
-export async function removeAccount(id: string) {
-	const response = await prisma.account.delete({ where: { id: id } })
+export async function removeAccount(data: Record<string, string>, id: string) {
+	const user = await prisma.user.findUnique({ where: { id: data.user_id } })
+	if (!user) throw "User does not exist";
+	const { password } = user;
+	if (await decryptPassword(data.password,password)) {
+		const response = await prisma.account.delete({ where: { id: id } })
+		return response
+	}
+	throw "Something went wrong"
 }
