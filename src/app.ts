@@ -6,6 +6,9 @@ import compression from "compression";
 import logger from "morgan";
 import cors from "cors";
 import helmet from "helmet";
+// swagger
+import swaggerUI from "swagger-ui-express";
+import YAML from "yamljs";
 
 // import { authenticator } from '@otplib/preset-default'
 // import qrcode from 'qrcode'
@@ -30,10 +33,13 @@ import walletRouter from "./routes/walletRoute";
 import txRoute from "./routes/txRoute";
 import twoFactor from "./routes/twoFactorRoute";
 
+const specs = YAML.load("./swagger.yaml");
+
 const app = express();
 
 console.log("app running on port 7000");
 
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use(compression());
 app.use(cors());
 app.use(helmet());

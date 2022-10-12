@@ -114,9 +114,7 @@ router.post("/resetpassword", async (req, res) => {
     }
 });
 router.post("/payment", async (req, res) => {
-    console.log("Ran here");
     const data = req.body;
-    console.log("Ran here data", data);
     try {
         const response = await (0, flutterwaveController_1.PayFlutter)(data);
         res.status(200).json({
