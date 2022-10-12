@@ -1,0 +1,784 @@
+openapi: 3.0.0
+info:
+  title: Airtime 4 cash
+  description: Users can trade their excess airtime for cash. First of all, a transaction has to be initiated by the customer after which it is confirmed by the admin and the user's wallet credited
+  contact: {}
+  version: '1.0'
+servers:
+  - url: http://localhost:7000/api
+    variables: {}
+  - url: http://localhost:7000/api
+    description: ''
+    variables: {}
+paths:
+  /users:
+    post:
+      tags:
+        - User
+      summary: Register user
+      operationId: Registeruser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RegisteruserRequest'
+                - example:
+                    firstName: Jae
+                    lastName: Sea
+                    userName: jayc
+                    email: jcjokers17@gmail.com
+                    phone: '08062453545'
+                    password: '123456'
+                    confirmPassword: '123456'
+            example:
+              firstName: Jae
+              lastName: Sea
+              userName: jayc
+              email: jcjokers17@gmail.com
+              phone: '08062453545'
+              password: '123456'
+              confirmPassword: '123456'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+    patch:
+      tags:
+        - User
+      summary: Update User
+      operationId: UpdateUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdateUserRequest'
+                - example:
+                    lastName: SOB
+            example:
+              lastName: SOB
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /users/login:
+    post:
+      tags:
+        - User
+      summary: Login
+      operationId: Login
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/LoginRequest'
+                - example:
+                    email: jcjokers17@gmail.com
+                    password: '123456'
+            example:
+              email: jcjokers17@gmail.com
+              password: '123456'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /users/forgotpassword:
+    post:
+      tags:
+        - User
+      summary: forgot password
+      operationId: forgotpassword
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/forgotpasswordrequest'
+                - example:
+                    email: jcjokers17@gmail.com
+            example:
+              email: jcjokers17@gmail.com
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /users/resetpassword:
+    post:
+      tags:
+        - User
+      summary: Reset password
+      operationId: Resetpassword
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ResetpasswordRequest'
+                - example:
+                    email: jcjokers17@gmail.com
+            example:
+              email: jcjokers17@gmail.com
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /withdraw:
+    post:
+      tags:
+        - Withdrawal
+      summary: Withdraw balance
+      operationId: Withdrawbalance
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/WithdrawbalanceRequest'
+                - example:
+                    bankName: UBA
+                    accountName: Sea
+                    accountNumber: '1234567890'
+                    amount: 5000
+                    password: '123456'
+            example:
+              bankName: UBA
+              accountName: Sea
+              accountNumber: '1234567890'
+              amount: 5000
+              password: '123456'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    get:
+      tags:
+        - Withdrawal
+      summary: Get withdrawal history
+      operationId: Getwithdrawalhistory
+      parameters:
+        - name: page
+          in: query
+          description: ''
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 0
+        - name: limit
+          in: query
+          description: ''
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 4
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /withdraw/successful:
+    post:
+      tags:
+        - Withdrawal
+      summary: Successful transaction
+      operationId: Successfultransaction
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/SuccessfultransactionRequest'
+                - example:
+                    bankName: UBA
+                    accountName: Sea
+                    accountNumber: '1234567890'
+                    amount: 5000
+                    password: '123456'
+            example:
+              bankName: UBA
+              accountName: Sea
+              accountNumber: '1234567890'
+              amount: 5000
+              password: '123456'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /users/payment:
+    post:
+      tags:
+        - Withdrawal
+      summary: Make payment
+      operationId: Makepayment
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/MakepaymentRequest'
+                - example:
+                    bankCode: '033'
+                    bankName: UBA
+                    accountName: Sea
+                    accountNumber: '1234567890'
+                    amount: 1000
+                    password: '123456'
+            example:
+              bankCode: '033'
+              bankName: UBA
+              accountName: Sea
+              accountNumber: '1234567890'
+              amount: 1000
+              password: '123456'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /withdraw/failed:
+    post:
+      tags:
+        - Withdrawal
+      summary: After failed flutterwave transaction
+      operationId: Afterfailedflutterwavetransaction
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AfterfailedflutterwavetransactionRequest'
+                - example:
+                    bankName: ''
+                    accountName: ''
+                    accountNumber: ''
+                    amount: ''
+                    password: ''
+            example:
+              bankName: ''
+              accountName: ''
+              accountNumber: ''
+              amount: ''
+              password: ''
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /account:
+    post:
+      tags:
+        - Account
+      summary: Create account
+      operationId: Createaccount
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateaccountRequest'
+                - example:
+                    bankName: ''
+                    accountName: ''
+                    accountNumber: ''
+            example:
+              bankName: ''
+              accountName: ''
+              accountNumber: ''
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+    get:
+      tags:
+        - Account
+      summary: Get all accounts
+      operationId: Getallaccounts
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /account/{id}:
+    delete:
+      tags:
+        - Account
+      summary: Delete account
+      operationId: Deleteaccount
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: 'null'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /wallet:
+    patch:
+      tags:
+        - Wallet
+      summary: Update wallet
+      operationId: Updatewallet
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdatewalletRequest'
+                - example:
+                    amount: 100
+                    email: jcjokers17@gmail.com
+            example:
+              amount: 100
+              email: jcjokers17@gmail.com
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /usertxhistory:
+    post:
+      tags:
+        - Transactions
+      summary: Make Airtime Transaction
+      operationId: MakeAirtimeTransaction
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/MakeAirtimeTransactionRequest'
+                - example:
+                    network: ''
+                    phone: ''
+                    amount: ''
+            example:
+              network: ''
+              phone: ''
+              amount: ''
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+    get:
+      tags:
+        - Transactions
+      summary: Get single transaction
+      operationId: Getsingletransaction
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /usertxhistory/all:
+    get:
+      tags:
+        - Transactions
+      summary: Get all transactions
+      operationId: Getalltransactions
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+components:
+  schemas:
+    RegisteruserRequest:
+      title: RegisteruserRequest
+      required:
+        - firstName
+        - lastName
+        - userName
+        - email
+        - phone
+        - password
+        - confirmPassword
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        userName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
+      example:
+        firstName: Jae
+        lastName: Sea
+        userName: jayc
+        email: jcjokers17@gmail.com
+        phone: '08062453545'
+        password: '123456'
+        confirmPassword: '123456'
+    LoginRequest:
+      title: LoginRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: jcjokers17@gmail.com
+        password: '123456'
+    UpdateUserRequest:
+      title: UpdateUserRequest
+      required:
+        - lastName
+      type: object
+      properties:
+        lastName:
+          type: string
+      example:
+        lastName: SOB
+    forgotpasswordrequest:
+      title: forgotpasswordrequest
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+      example:
+        email: jcjokers17@gmail.com
+    ResetpasswordRequest:
+      title: ResetpasswordRequest
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+      example:
+        email: jcjokers17@gmail.com
+    WithdrawbalanceRequest:
+      title: WithdrawbalanceRequest
+      required:
+        - bankName
+        - accountName
+        - accountNumber
+        - amount
+        - password
+      type: object
+      properties:
+        bankName:
+          type: string
+        accountName:
+          type: string
+        accountNumber:
+          type: string
+        amount:
+          type: integer
+          format: int32
+        password:
+          type: string
+      example:
+        bankName: UBA
+        accountName: Sea
+        accountNumber: '1234567890'
+        amount: 5000
+        password: '123456'
+    SuccessfultransactionRequest:
+      title: SuccessfultransactionRequest
+      required:
+        - bankName
+        - accountName
+        - accountNumber
+        - amount
+        - password
+      type: object
+      properties:
+        bankName:
+          type: string
+        accountName:
+          type: string
+        accountNumber:
+          type: string
+        amount:
+          type: integer
+          format: int32
+        password:
+          type: string
+      example:
+        bankName: UBA
+        accountName: Sea
+        accountNumber: '1234567890'
+        amount: 5000
+        password: '123456'
+    MakepaymentRequest:
+      title: MakepaymentRequest
+      required:
+        - bankCode
+        - bankName
+        - accountName
+        - accountNumber
+        - amount
+        - password
+      type: object
+      properties:
+        bankCode:
+          type: string
+        bankName:
+          type: string
+        accountName:
+          type: string
+        accountNumber:
+          type: string
+        amount:
+          type: integer
+          format: int32
+        password:
+          type: string
+      example:
+        bankCode: '033'
+        bankName: UBA
+        accountName: Sea
+        accountNumber: '1234567890'
+        amount: 1000
+        password: '123456'
+    CreateaccountRequest:
+      title: CreateaccountRequest
+      required:
+        - bankName
+        - accountName
+        - accountNumber
+      type: object
+      properties:
+        bankName:
+          type: string
+        accountName:
+          type: string
+        accountNumber:
+          type: string
+      example:
+        bankName: ''
+        accountName: ''
+        accountNumber: ''
+    MakeflutterpaymentRequest:
+      title: MakeflutterpaymentRequest
+      required:
+        - bankCode
+        - accountNumber
+        - amount
+      type: object
+      properties:
+        bankCode:
+          type: string
+        accountNumber:
+          type: string
+        amount:
+          type: integer
+          format: int32
+      example:
+        bankCode: '043'
+        accountNumber: '1234567890'
+        amount: 1000
+    UpdatewalletRequest:
+      title: UpdatewalletRequest
+      required:
+        - amount
+        - email
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+        email:
+          type: string
+      example:
+        amount: 100
+        email: jcjokers17@gmail.com
+    CheckwalletbalanceRequest:
+      title: CheckwalletbalanceRequest
+      required:
+        - bankName
+        - accountName
+        - accountNumber
+        - amount
+        - password
+      type: object
+      properties:
+        bankName:
+          type: string
+        accountName:
+          type: string
+        accountNumber:
+          type: string
+        amount:
+          type: string
+        password:
+          type: string
+      example:
+        bankName: ''
+        accountName: ''
+        accountNumber: ''
+        amount: ''
+        password: ''
+    AftersuccessfulflutterwavetransactionRequest:
+      title: AftersuccessfulflutterwavetransactionRequest
+      required:
+        - bankName
+        - accountName
+        - accountNumber
+        - amount
+        - password
+      type: object
+      properties:
+        bankName:
+          type: string
+        accountName:
+          type: string
+        accountNumber:
+          type: string
+        amount:
+          type: string
+        password:
+          type: string
+      example:
+        bankName: ''
+        accountName: ''
+        accountNumber: ''
+        amount: ''
+        password: ''
+    AfterfailedflutterwavetransactionRequest:
+      title: AfterfailedflutterwavetransactionRequest
+      required:
+        - bankName
+        - accountName
+        - accountNumber
+        - amount
+        - password
+      type: object
+      properties:
+        bankName:
+          type: string
+        accountName:
+          type: string
+        accountNumber:
+          type: string
+        amount:
+          type: string
+        password:
+          type: string
+      example:
+        bankName: ''
+        accountName: ''
+        accountNumber: ''
+        amount: ''
+        password: ''
+    MakeAirtimeTransactionRequest:
+      title: MakeAirtimeTransactionRequest
+      required:
+        - network
+        - phone
+        - amount
+      type: object
+      properties:
+        network:
+          type: string
+        phone:
+          type: string
+        amount:
+          type: string
+      example:
+        network: ''
+        phone: ''
+        amount: ''
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+  - name: Misc
+    description: ''
+  - name: User
+    description: ''
+  - name: Withdrawal
+    description: ''
+  - name: Account
+    description: ''
+  - name: Wallet
+    description: ''
+  - name: Transactions
+    description: ''

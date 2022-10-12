@@ -15,8 +15,8 @@ model User {
   email      String  @unique
   phone      String  @unique
   password   String
-  avatar     String?  
-  wallet     Int     @default(0)
+  avatar     String?
+  wallet     Float   @default(0.00)
   isVerified Boolean @default(false)
   isAdmin    Boolean @default(false)
 

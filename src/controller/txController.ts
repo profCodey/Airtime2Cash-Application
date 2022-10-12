@@ -71,9 +71,9 @@ export async function userTx(id: string) {
   const userTx = await prisma.txRecord.findMany({
     where: {
       userId: id,
-      },
-      orderBy: {
-        createdAt: "desc"
+    },
+    orderBy: {
+      createdAt: "desc"
     }
   });
   if (!userTx) throw "No transaction for this user";
@@ -82,7 +82,7 @@ export async function userTx(id: string) {
 export async function allTx() {
   const Tx = await prisma.txRecord.findMany({
     orderBy: {
-        createdAt: "desc"
+      createdAt: "desc"
     }
   });
   if (!Tx || Tx.length < 1) throw "No transactions at this time";

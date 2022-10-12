@@ -11,13 +11,18 @@ const compression_1 = __importDefault(require("compression"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
+// swagger
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const yamljs_1 = __importDefault(require("yamljs"));
 const userRoute_1 = __importDefault(require("./routes/userRoute"));
 const accountRoute_1 = __importDefault(require("./routes/accountRoute"));
 const withdrawHistoryRoute_1 = __importDefault(require("./routes/withdrawHistoryRoute"));
 const walletRoute_1 = __importDefault(require("./routes/walletRoute"));
 const txRoute_1 = __importDefault(require("./routes/txRoute"));
+const specs = yamljs_1.default.load('./swagger.yaml');
 const app = (0, express_1.default)();
 console.log("app running on port 7000");
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
 app.use((0, compression_1.default)());
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
