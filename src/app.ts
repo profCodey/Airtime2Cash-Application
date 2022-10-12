@@ -10,22 +10,6 @@ import helmet from "helmet";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yamljs";
 
-// import { authenticator } from '@otplib/preset-default'
-// import qrcode from 'qrcode'
-// const user = 'A user name, possibly an email';
-// const service = 'A service name';
-// const secret="some2secret"
-
-// // v11.x and above
-// const otpauth = authenticator.keyuri(user, service, secret);
-
-// qrcode.toDataURL(otpauth, (err, imageUrl) => {
-//   if (err) {
-//     throw ('Error with QR');
-//   }
-//   console.log (imageUrl);
-// })
-
 import usersRouter from "./routes/userRoute";
 import accountRouter from "./routes/accountRoute";
 import withdrawHistoryRouter from "./routes/withdrawHistoryRoute";

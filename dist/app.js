@@ -14,19 +14,6 @@ const helmet_1 = __importDefault(require("helmet"));
 // swagger
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const yamljs_1 = __importDefault(require("yamljs"));
-// import { authenticator } from '@otplib/preset-default'
-// import qrcode from 'qrcode'
-// const user = 'A user name, possibly an email';
-// const service = 'A service name';
-// const secret="some2secret"
-// // v11.x and above
-// const otpauth = authenticator.keyuri(user, service, secret);
-// qrcode.toDataURL(otpauth, (err, imageUrl) => {
-//   if (err) {
-//     throw ('Error with QR');
-//   }
-//   console.log (imageUrl);
-// })
 const userRoute_1 = __importDefault(require("./routes/userRoute"));
 const accountRoute_1 = __importDefault(require("./routes/accountRoute"));
 const withdrawHistoryRoute_1 = __importDefault(require("./routes/withdrawHistoryRoute"));
