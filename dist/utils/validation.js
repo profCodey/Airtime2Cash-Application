@@ -1,32 +1,26 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateWalletSchema = exports.txRecordSchema = exports.withdrawHistorySchema = exports.walletBalanceSchema = exports.createAccountSchema = exports.updateUserSchema = exports.registerUSerSchema = exports.emailSchema = exports.loginUserSchema = void 0;
-const zod_1 = __importDefault(require("zod"));
-exports.loginUserSchema = zod_1.default.object({
-    email: zod_1.default.string().email().optional(),
-    userName: zod_1.default.string().trim().optional(),
-    password: zod_1.default.string(),
+import z from "zod";
+export const loginUserSchema = z.object({
+    email: z.string().email().optional(),
+    userName: z.string().trim().optional(),
+    password: z.string(),
 });
-exports.emailSchema = zod_1.default.object({
-    email: zod_1.default.string().email(),
+export const emailSchema = z.object({
+    email: z.string().email(),
 });
-exports.registerUSerSchema = zod_1.default
+export const registerUSerSchema = z
     .object({
-    firstName: zod_1.default.string(),
-    lastName: zod_1.default.string(),
-    userName: zod_1.default.string(),
-    email: zod_1.default.string().email(),
-    phone: zod_1.default.string(),
-    wallet: zod_1.default.number().optional().default(0),
-    password: zod_1.default.string({
+    firstName: z.string(),
+    lastName: z.string(),
+    userName: z.string(),
+    email: z.string().email(),
+    phone: z.string(),
+    wallet: z.number().optional().default(0),
+    password: z.string({
         required_error: "Password is required",
     }).min(6, { message: "Password must be 6 or more characters long" }),
-    confirmPassword: zod_1.default.string().min(6, { message: "Confirm password must be 6 or more characters long" }),
-    avatar: zod_1.default.string().optional(),
-    isVerified: zod_1.default.boolean().optional(),
+    confirmPassword: z.string().min(6, { message: "Confirm password must be 6 or more characters long" }),
+    avatar: z.string().optional(),
+    isVerified: z.boolean().optional(),
 })
     .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -36,48 +30,48 @@ exports.registerUSerSchema = zod_1.default
         });
     }
 });
-exports.updateUserSchema = zod_1.default.object({
-    firstName: zod_1.default.string().optional(),
-    lastName: zod_1.default.string().optional(),
-    userName: zod_1.default.string().optional(),
-    email: zod_1.default.string().email().optional(),
-    phone: zod_1.default.string().optional(),
-    password: zod_1.default.string().min(4).optional(),
-    confirmPassword: zod_1.default.string().min(4).optional(),
-    avatar: zod_1.default.string().optional(),
-    isVerified: zod_1.default.boolean().optional(),
-    wallet: zod_1.default.string().optional()
+export const updateUserSchema = z.object({
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    userName: z.string().optional(),
+    email: z.string().email().optional(),
+    phone: z.string().optional(),
+    password: z.string().min(4).optional(),
+    confirmPassword: z.string().min(4).optional(),
+    avatar: z.string().optional(),
+    isVerified: z.boolean().optional(),
+    wallet: z.string().optional()
 });
-exports.createAccountSchema = zod_1.default.object({
-    bankName: zod_1.default.string(),
-    accountName: zod_1.default.string(),
-    accountNumber: zod_1.default.string(),
+export const createAccountSchema = z.object({
+    bankName: z.string(),
+    accountName: z.string(),
+    accountNumber: z.string(),
 });
-exports.walletBalanceSchema = zod_1.default.object({
-    bankName: zod_1.default.string().optional(),
-    accountName: zod_1.default.string(),
-    accountNumber: zod_1.default.string(),
-    amount: zod_1.default.number(),
-    password: zod_1.default.string({
+export const walletBalanceSchema = z.object({
+    bankName: z.string().optional(),
+    accountName: z.string(),
+    accountNumber: z.string(),
+    amount: z.number(),
+    password: z.string({
         required_error: "Password is required",
     }).min(6, { message: "Password must be 6 or more characters long" }),
 });
-exports.withdrawHistorySchema = zod_1.default.object({
-    bankName: zod_1.default.string().optional(),
-    accountName: zod_1.default.string().optional(),
-    accountNumber: zod_1.default.string().optional(),
-    amount: zod_1.default.number(),
-    password: zod_1.default.string({
+export const withdrawHistorySchema = z.object({
+    bankName: z.string().optional(),
+    accountName: z.string().optional(),
+    accountNumber: z.string().optional(),
+    amount: z.number(),
+    password: z.string({
         required_error: "Password is required",
     }).min(6, { message: "Password must be 6 or more characters long" }),
 });
-exports.txRecordSchema = zod_1.default.object({
-    network: zod_1.default.string(),
-    phone: zod_1.default.string(),
-    amount: zod_1.default.string(),
+export const txRecordSchema = z.object({
+    network: z.string(),
+    phone: z.string(),
+    amount: z.string(),
 });
-exports.updateWalletSchema = zod_1.default.object({
-    amount: zod_1.default.string(),
-    email: zod_1.default.string()
+export const updateWalletSchema = z.object({
+    amount: z.string(),
+    email: z.string()
 });
 //# sourceMappingURL=validation.js.map
