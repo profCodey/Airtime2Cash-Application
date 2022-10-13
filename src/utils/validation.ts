@@ -44,6 +44,7 @@ export const updateUserSchema = z.object({
   confirmPassword: z.string().min(4).optional(),
   avatar: z.string().optional(),
   isVerified: z.boolean().optional(),
+  isAdmin: z.boolean().optional(),
   wallet: z.string().optional()
 });
 

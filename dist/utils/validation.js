@@ -46,6 +46,7 @@ exports.updateUserSchema = zod_1.default.object({
     confirmPassword: zod_1.default.string().min(4).optional(),
     avatar: zod_1.default.string().optional(),
     isVerified: zod_1.default.boolean().optional(),
+    isAdmin: zod_1.default.boolean().optional(),
     wallet: zod_1.default.string().optional()
 });
 exports.createAccountSchema = zod_1.default.object({
