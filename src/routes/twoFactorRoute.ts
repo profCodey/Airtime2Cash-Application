@@ -6,12 +6,13 @@ import { auth } from "../utils/authMiddleware";
 
 const routes = Router()
 
-routes.post("/verify", async(req:userRequest, res) => {
+routes.post("/verify",auth, async(req:userRequest, res) => {
     try {
         const { pin } = req.body;
         const { user_id } = req.user
         const response = await twoFaVerify(pin,user_id)
         console.log(response)
+        res.status(200).json({status: response})
     } catch (error) {
         console.log(error)
         return res.status(400).json({Error:error})
