@@ -6,17 +6,24 @@ import compression from "compression";
 import logger from "morgan";
 import cors from "cors";
 import helmet from "helmet";
+// swagger
+import swaggerUI from "swagger-ui-express";
+import YAML from "yamljs";
 
 import usersRouter from "./routes/userRoute";
 import accountRouter from "./routes/accountRoute";
 import withdrawHistoryRouter from "./routes/withdrawHistoryRoute";
-import walletRouter from "./routes/accountRoute";
+import walletRouter from "./routes/walletRoute";
 import txRoute from "./routes/txRoute";
+import twoFactor from "./routes/twoFactorRoute";
+
+const specs = YAML.load("./swagger.yaml");
 
 const app = express();
 
 console.log("app running on port 7000");
 
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use(compression());
 app.use(cors());
 app.use(helmet());
@@ -33,8 +40,8 @@ app.use("/api/users", usersRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/withdraw", withdrawHistoryRouter);
 app.use("/api/wallet", walletRouter);
-app.use("/api/notify", txRoute);
-
+app.use("/api/transactions", txRoute);
+app.use("/api/twofactor", twoFactor);
 app.use("/api/usertxhistory", txRoute);
 
 // catch 404 and forward to error handler

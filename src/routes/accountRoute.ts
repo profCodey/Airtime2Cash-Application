@@ -12,7 +12,6 @@ routes.post("/", auth, async (req: userRequest, res) => {
 		const response = await createAccount(data, user_id);
 		return res.status(201).json({ message: "Success", response });
 	} catch (error) {
-    console.log(error)
 		return res.status(400).json({ Error: error });
 	}
 });
@@ -27,14 +26,19 @@ routes.get("/", auth, async (req: userRequest, res) => {
 	}
 })
 
-routes.delete("/:id", auth, async (req, res) => {
-  try {
-    const id = req.params.id
-    const response = await removeAccount(id);
-    res.status(200).json({message: "Success", response})
-  } catch (error) {
-    return res.status(400).json({ Error: error });
-  }
+routes.delete("/:id", auth, async (req:userRequest, res) => {
+	console.log("ggg", req.user.user_id)
+// 	try {
+// 	  console.log("hello, i'm here")
+// 	  const id = req.params.id
+// 	  const { user_id } = req.user
+// 	  console.log(user_id,"idggg")
+// 	const password = req.body.password
+//     const response = await removeAccount({user_id,password},id);
+//     res.status(200).json({message: "Success", response})
+//   } catch (error) {
+//     return res.status(400).json({ Error: error });
+//   }
 });
 
 

@@ -35,7 +35,6 @@ export async function registerUser(data) {
             userName: record.userName,
             email: record.email,
             phone: record.phone,
-            avatar: "https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png",
             password: (await encryptPassword(record.password)),
         },
         select: {
@@ -73,7 +72,7 @@ export async function loginUser(data) {
     if (!match) {
         throw "Incorrect password. Access denied";
     }
-    const { id, firstName, lastName, email, userName, phone, avatar, isVerified, wallet, } = user;
+    const { id, firstName, lastName, email, userName, phone, avatar, isVerified, wallet, isAdmin } = user;
     return {
         token: generateAccessToken(user.id),
         userdata: {
@@ -85,7 +84,8 @@ export async function loginUser(data) {
             phone,
             avatar,
             isVerified,
-            wallet
+            wallet,
+            isAdmin
         },
     };
 }
@@ -121,6 +121,7 @@ export async function updateUser(data) {
             userName: record.userName,
             phone: record.phone,
             isVerified: record.isVerified,
+            isAdmin: record.isAdmin,
             password: record.password
                 ? (await encryptPassword(record.password))
                 : user.password,
@@ -132,7 +133,8 @@ export async function updateUser(data) {
             lastName: true,
             userName: true,
             phone: true,
-            wallet: true
+            wallet: true,
+            isAdmin: true
         },
     });
 }
