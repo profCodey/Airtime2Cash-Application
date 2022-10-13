@@ -41,8 +41,8 @@ export async function registerUser(data: Record<string, unknown>) {
 			lastName: record.lastName,
 			userName: record.userName,
 			email: record.email,
-      phone: record.phone,
-    password: (await encryptPassword(record.password)) as string,
+			phone: record.phone,
+			password: (await encryptPassword(record.password)) as string,
 		},
 		select: {
 			id: true,
@@ -94,6 +94,7 @@ export async function loginUser(data: Record<string, unknown>) {
 		avatar,
 		isVerified,
 		wallet,
+		isAdmin
 	} = user;
 	return {
 		token: generateAccessToken(user.id as unknown as string),
@@ -106,7 +107,8 @@ export async function loginUser(data: Record<string, unknown>) {
 			phone,
 			avatar,
 			isVerified,
-			wallet
+			wallet,
+			isAdmin
 		},
 
 	};
@@ -146,6 +148,7 @@ export async function updateUser(data: Record<string, unknown>) {
 			userName: record.userName,
 			phone: record.phone,
 			isVerified: record.isVerified,
+			isAdmin: record.isAdmin,
 			password: record.password
 				? ((await encryptPassword(record.password)) as string)
 				: (user.password as string),
@@ -157,7 +160,8 @@ export async function updateUser(data: Record<string, unknown>) {
 			lastName: true,
 			userName: true,
 			phone: true,
-			wallet: true
+			wallet: true,
+			isAdmin: true
 		},
 	});
 }

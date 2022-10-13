@@ -79,7 +79,7 @@ async function loginUser(data) {
     if (!match) {
         throw "Incorrect password. Access denied";
     }
-    const { id, firstName, lastName, email, userName, phone, avatar, isVerified, wallet, } = user;
+    const { id, firstName, lastName, email, userName, phone, avatar, isVerified, wallet, isAdmin } = user;
     return {
         token: (0, authMiddleware_1.generateAccessToken)(user.id),
         userdata: {
@@ -91,7 +91,8 @@ async function loginUser(data) {
             phone,
             avatar,
             isVerified,
-            wallet
+            wallet,
+            isAdmin
         },
     };
 }
@@ -128,6 +129,7 @@ async function updateUser(data) {
             userName: record.userName,
             phone: record.phone,
             isVerified: record.isVerified,
+            isAdmin: record.isAdmin,
             password: record.password
                 ? (await (0, hashPassword_1.encryptPassword)(record.password))
                 : user.password,
@@ -139,7 +141,8 @@ async function updateUser(data) {
             lastName: true,
             userName: true,
             phone: true,
-            wallet: true
+            wallet: true,
+            isAdmin: true
         },
     });
 }
