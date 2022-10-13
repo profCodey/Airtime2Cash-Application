@@ -81,7 +81,7 @@ export const txRecordSchema = z.object({
 });
 
 export const updateWalletSchema = z.object({
-  txAmount: z.string(),
+  amount: z.string(),
   email: z.string(),
   txStatus: z.string(),
   txId: z.string()
