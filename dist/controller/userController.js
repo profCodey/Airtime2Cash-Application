@@ -1,40 +1,34 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getById = exports.resetPassword = exports.forgotPassword = exports.updateUser = exports.loginUser = exports.registerUser = void 0;
-const validation_1 = require("../utils/validation");
-const prismaClient_1 = __importDefault(require("../utils/prismaClient"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const hashPassword_1 = require("../utils/hashPassword");
-const cloudinary_1 = __importDefault(require("../utils/cloudinary"));
-const authMiddleware_1 = require("../utils/authMiddleware");
-const emailService_1 = require("../utils/emailService");
-const emailServices_1 = require("./emailServices");
-async function registerUser(data) {
-    const validData = validation_1.registerUSerSchema.safeParse(data);
+import { registerUSerSchema, loginUserSchema, updateUserSchema, emailSchema, } from "../utils/validation";
+import prisma from "../utils/prismaClient";
+import jwt from "jsonwebtoken";
+import { decryptPassword, encryptPassword } from "../utils/hashPassword";
+import cloudinary from "../utils/cloudinary";
+import { generateAccessToken } from "../utils/authMiddleware";
+import { emailServices } from "../utils/emailService";
+import { sendEmail } from "./emailServices";
+export async function registerUser(data) {
+    const validData = registerUSerSchema.safeParse(data);
     if (!validData.success) {
         throw validData.error;
     }
     const record = validData.data;
     // check for duplicate mail, phone and username
-    const duplicateMail = await prismaClient_1.default.user.findFirst({
+    const duplicateMail = await prisma.user.findFirst({
         where: { email: record.email },
     });
     if (duplicateMail)
         throw "Email already exist";
-    const duplicatePhone = await prismaClient_1.default.user.findFirst({
+    const duplicatePhone = await prisma.user.findFirst({
         where: { phone: record.phone },
     });
     if (duplicatePhone)
         throw "Phone number already exist";
-    const duplicateUserName = await prismaClient_1.default.user.findFirst({
+    const duplicateUserName = await prisma.user.findFirst({
         where: { userName: record.userName },
     });
     if (duplicateUserName)
         throw "User name already exist";
-    const response = prismaClient_1.default.user.create({
+    const response = prisma.user.create({
         data: {
             firstName: record.firstName,
             lastName: record.lastName,
@@ -42,7 +36,7 @@ async function registerUser(data) {
             email: record.email,
             phone: record.phone,
             avatar: "https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png",
-            password: (await (0, hashPassword_1.encryptPassword)(record.password)),
+            password: (await encryptPassword(record.password)),
         },
         select: {
             id: true,
@@ -54,35 +48,34 @@ async function registerUser(data) {
             wallet: true
         },
     });
-    (0, emailServices_1.sendEmail)({ email: (await response).email });
+    sendEmail({ email: (await response).email });
     return `Hello ${(await response).firstName}, please check your email to confirm ${(await response).email}`;
 }
-exports.registerUser = registerUser;
-async function loginUser(data) {
-    const isValidData = validation_1.loginUserSchema.safeParse(data);
+export async function loginUser(data) {
+    const isValidData = loginUserSchema.safeParse(data);
     if (!isValidData.success) {
         throw isValidData.error;
     }
     const record = isValidData.data;
     let user;
     if (record.email) {
-        user = await prismaClient_1.default.user.findUnique({ where: { email: record.email } });
+        user = await prisma.user.findUnique({ where: { email: record.email } });
     }
     else if (record.userName) {
-        user = await prismaClient_1.default.user.findUnique({
+        user = await prisma.user.findUnique({
             where: { userName: record.userName },
         });
     }
     if (!user) {
         throw "No user with username/email found. Please signup";
     }
-    const match = await (0, hashPassword_1.decryptPassword)(record.password, user.password);
+    const match = await decryptPassword(record.password, user.password);
     if (!match) {
         throw "Incorrect password. Access denied";
     }
     const { id, firstName, lastName, email, userName, phone, avatar, isVerified, wallet, } = user;
     return {
-        token: (0, authMiddleware_1.generateAccessToken)(user.id),
+        token: generateAccessToken(user.id),
         userdata: {
             id,
             firstName,
@@ -96,21 +89,20 @@ async function loginUser(data) {
         },
     };
 }
-exports.loginUser = loginUser;
-async function updateUser(data) {
-    const validData = validation_1.updateUserSchema.safeParse(data);
+export async function updateUser(data) {
+    const validData = updateUserSchema.safeParse(data);
     const id = data.id;
     if (!validData.success) {
         throw validData.error;
     }
-    const user = await prismaClient_1.default.user.findFirst({ where: { id } });
+    const user = await prisma.user.findFirst({ where: { id } });
     if (!user) {
         throw "Cannot find user";
     }
     const avatar = data.avatar;
     let uploadedResponse;
     if (avatar) {
-        uploadedResponse = await cloudinary_1.default.uploader.upload(avatar, {
+        uploadedResponse = await cloudinary.uploader.upload(avatar, {
             allowed_formats: ["jpg", "png", "svg", "jpeg"],
             folder: "live-project"
         });
@@ -118,7 +110,7 @@ async function updateUser(data) {
             throw Error;
     }
     const record = validData.data;
-    return prismaClient_1.default.user.update({
+    return prisma.user.update({
         where: {
             id,
         },
@@ -130,7 +122,7 @@ async function updateUser(data) {
             phone: record.phone,
             isVerified: record.isVerified,
             password: record.password
-                ? (await (0, hashPassword_1.encryptPassword)(record.password))
+                ? (await encryptPassword(record.password))
                 : user.password,
             wallet: record.wallet
         },
@@ -144,30 +136,27 @@ async function updateUser(data) {
         },
     });
 }
-exports.updateUser = updateUser;
-async function forgotPassword(data) {
-    const validData = validation_1.emailSchema.safeParse(data);
+export async function forgotPassword(data) {
+    const validData = emailSchema.safeParse(data);
     if (!validData.success)
         throw validData.error;
     const email = validData.data.email;
-    const user = await prismaClient_1.default.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email } });
     if (!user)
         throw "User does not exist";
-    const response = (0, emailService_1.emailServices)(user, "resetpassword");
+    const response = emailServices(user, "resetpassword");
     return response;
 }
-exports.forgotPassword = forgotPassword;
-async function resetPassword(token, newPassword) {
-    const decoded = jsonwebtoken_1.default.verify(token, process.env.AUTH_SECRET);
+export async function resetPassword(token, newPassword) {
+    const decoded = jwt.verify(token, process.env.AUTH_SECRET);
     const id = decoded;
-    const user = await prismaClient_1.default.user.findUnique({ where: { id: id.user_id } });
+    const user = await prisma.user.findUnique({ where: { id: id.user_id } });
     if (!user)
         throw "user not found";
     await updateUser({ password: newPassword, id: user.id });
 }
-exports.resetPassword = resetPassword;
-async function getById(id) {
-    return await prismaClient_1.default.user.findUnique({
+export async function getById(id) {
+    return await prisma.user.findUnique({
         where: { id },
         select: {
             id: true,
@@ -181,5 +170,4 @@ async function getById(id) {
         },
     });
 }
-exports.getById = getById;
 //# sourceMappingURL=userController.js.map

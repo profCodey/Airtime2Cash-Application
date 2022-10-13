@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "Develop" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "Develop" ]
+    branches: [ "develop" ]
 
 
 //these job is for build (remember we are creating another job for test)  
