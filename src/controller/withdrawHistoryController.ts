@@ -34,7 +34,7 @@ export async function successHistory(data: Record<string, unknown>, id: string) 
     const newBalance = walletBalance - amount;
     await prisma.withdrawHistory.create({
         data: {
-            amount: record.amount,
+            amount: amount,
             accountNumber: record.accountNumber as string,
             bankName: record.bankName as string,
             userId: id,
@@ -71,13 +71,18 @@ export async function failedHistory(data: Record<string, unknown>, id: string) {
     return walletBalance
 }
 
-export async function userWithdrawal(id:string){
+export async function userWithdrawal(id: string, page: number, limit: number) {
+    const toSkip = (0 + page) * limit;
+    console.log('withHisCon 76')
     const oneUserWithdrawal = await prisma.withdrawHistory.findMany({
         where: {
-            userId : id
+            userId: id
+        },
+        orderBy: {
+            createdAt: "desc"
         }
     })
-    if(oneUserWithdrawal.length < 1) throw "No withdrawals yet"
-    console.log(oneUserWithdrawal)
+    if (oneUserWithdrawal.length < 1) throw "No withdrawals yet"
+    console.log('withHisCon 87')
     return oneUserWithdrawal;
 }

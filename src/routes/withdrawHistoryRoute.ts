@@ -59,13 +59,16 @@ router.post("/failed", auth, async (req: userRequest, res) => {
 
 });
 
-router.get('/', auth, async(req:userRequest, res) => {
+router.get('/', auth, async (req: userRequest, res) => {
+    console.log('withRoute 63')
     try {
-        const {user_id} = req.user
-        const response = await userWithdrawal(user_id)
-        return res.status(200).json({message:"success", response})
-    }catch (error) {
-        return res.status(400).json({Error, error})
+        const { user_id } = req.user
+        const page = req.query.page as unknown as number;
+        const limit = req.query.limit as unknown as number;
+        const response = await userWithdrawal(user_id, page, limit)
+        return res.status(200).json({ message: "success", response })
+    } catch (error) {
+        return res.status(400).json({ Error, error })
     }
 })
 

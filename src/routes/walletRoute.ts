@@ -1,28 +1,38 @@
 import { Router } from "express";
-import { updateWallet } from "../controller/walletController";
+import { cancelTx, updateWallet } from "../controller/walletController";
 import { userRequest } from "../types/express";
 import { auth } from "../utils/authMiddleware";
 
 const router = Router();
 
-// Create an API to update the user wallet.
-// This endpoint will take the amount and user email from the request body, this amount is then used to update the user wallet.
-// That is the amount to be updated will be added to the current wallet balance.
-// update wallet endpoint
-
-router.patch("/", auth, async (req:userRequest, res) => {
+router.patch("/confirm", auth, async (req:userRequest, res) => {
 	try {
-		const amount = req.body.amount;
+		const data = req.body;
 		const id = req.user.user_id;
-		const response = await updateWallet(amount,id);
+		const response = await updateWallet(data, id);
 		return res.status(200).json({
 			message: "Success",
-			response,
+			response
 		})
 	} catch (error) {
-		console.log(error);
-		
-		res.status(500).json({
+		console.log(error)
+		return res.status(400).json({
+			message: error
+		})
+	}
+});
+router.patch("/cancel", auth, async (req:userRequest, res) => {
+	try {
+		const txId = req.body.txId;
+		const id = req.user.user_id;
+		const response = await cancelTx(txId, id);
+		return res.status(200).json({
+			message: "Success",
+			response
+		})
+	} catch (error) {
+		console.log(error)
+		return res.status(400).json({
 			message: error
 		})
 	}

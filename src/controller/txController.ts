@@ -6,7 +6,7 @@ export async function recordTx(txData: Record<string, unknown>, id: string) {
   const validData = txRecordSchema.safeParse(txData);
   if (!validData.success) throw validData.error;
   const { amount, network, phone } = validData.data;
-  const amountAfterRates = Number(amount) * 0.7;
+  const amountAfterRates = (Number(amount) * 70)/100;
 
   //get user email
   const user = await prisma.user.findUnique({ where: { id } });
@@ -63,6 +63,7 @@ export async function recordTx(txData: Record<string, unknown>, id: string) {
             <a href="${process.env.FRONTEND_URL}/admin">Click here</a> to confirm transfer
      `, // html body
   });
+
   return response;
 }
 
@@ -71,7 +72,19 @@ export async function userTx(id: string) {
     where: {
       userId: id,
     },
+    orderBy: {
+      createdAt: "desc"
+    }
   });
   if (!userTx) throw "No transaction for this user";
   return userTx;
+}
+export async function allTx() {
+  const Tx = await prisma.txRecord.findMany({
+    orderBy: {
+      updatedAt: "desc"
+    }
+  });
+  if (!Tx || Tx.length < 1) throw "No transactions at this time";
+  return Tx;
 }
