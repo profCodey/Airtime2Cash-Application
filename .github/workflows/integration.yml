@@ -7,7 +7,7 @@ on:
     branches: [ "develop" ]
 
 
-//these job is for build (remember we are creating another job for test)  
+#these job is for build (remember we are creating another job for test)  
 jobs:
   build:
 
