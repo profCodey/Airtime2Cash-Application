@@ -1,25 +1,25 @@
-name: Release
+# name: Release
 
-on:
-  push:
-    branches: [ "develop" ]
+# on:
+#   push:
+#     branches: [ "develop" ]
 
 
-#these job is for build (remember we are creating another job for test)  
-jobs:
-  deploy:
+# #these job is for build (remember we are creating another job for test)  
+# jobs:
+#   deploy:
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    # steps:
-    # - uses: actions/checkout@v3
+#     # steps:
+#     # - uses: actions/checkout@v3
 
-    # - run: yarn install
-    # - run: yarn build
-     steps:
-      - uses: actions/checkout@v3
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
-          heroku_email: ${{secrets.HEROKU_APP_EMAIL}}
+#     # - run: yarn install
+#     # - run: yarn build
+#      steps:
+#       - uses: actions/checkout@v3
+#       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+#         with:
+#           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+#           heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
+#           heroku_email: ${{secrets.HEROKU_APP_EMAIL}}
