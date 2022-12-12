@@ -1,6 +1,18 @@
 LIVE DEMO - https://podfairtime2cash.netlify.app/
 
-# NODE-SQ011B-AIRTIME-2-CASH-APP-
+# AIRTIME-2-CASH-APP-
+
+Technologies
+Node.JS
+Typescript
+JWT
+Sqlite,
+Supertest,
+
+Express
+Prisma
+
+
 
 ### NAMING CONVENTION
 
