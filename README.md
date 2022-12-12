@@ -1,4 +1,4 @@
-LIVE DEMO - https://airtime-cash-podb.vercel.app/
+LIVE DEMO - https://podfairtime2cash.netlify.app/
 
 # NODE-SQ011B-AIRTIME-2-CASH-APP-
 
